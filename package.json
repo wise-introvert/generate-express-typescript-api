@@ -11,5 +11,10 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "chalk": "^4.1.0",
+    "cli-box": "^6.0.10",
+    "ora": "^5.1.0"
+  }
 }

@@ -1,6 +1,12 @@
 #! /usr/bin/env node
 
 const { spawn } = require("child_process");
+const ora = require("ora");
+const chalk = require("chalk");
+const box = require("cli-box");
+
+const cloneSpinner = ora("📋 Cloning template");
+const installSpinner = ora("📦 Installing dependencies");
 
 const name = process.argv[2];
 if (!name || name.match(/[<>:"\/\\|?*\x00-\x1F]/)) {
@@ -13,22 +19,32 @@ if (!name || name.match(/[<>:"\/\\|?*\x00-\x1F]/)) {
 const repoURL =
   "https://www.github.com/wise-introvert/express-typescript-api.git";
 
+cloneSpinner.start();
 runCommand("git", ["clone", repoURL, name])
   .then(() => {
+    cloneSpinner.succeed("Cloned!");
+    cloneSpinner.stop();
+    installSpinner.start();
     return runCommand("rm", ["-rf", `${name}/.git`]);
   })
   .then(() => {
-    console.log("Installing dependencies...");
     return runCommand("npm", ["install"], {
       cwd: process.cwd() + "/" + name
     });
   })
   .then(() => {
-    console.log("Done! 🏁");
-    console.log("");
-    console.log("To get started:");
-    console.log("cd", name);
-    console.log("npm run start:watch");
+    installSpinner.succeed("Installed dependencies!");
+    installSpinner.stop();
+    console.log(
+      box(
+        "80x20",
+        `\n🎉 Successfully created an express api using typescript.\n\n${chalk.whiteBright(
+          "To get started, run the following commands:"
+        )}\n${chalk.blue(`cd ${name}`)}\n${chalk.blue(
+          "npm run start:watch"
+        )}\n\n${chalk.whiteBright("Happy Hacking!")}`
+      ).toString()
+    );
   });
 
 function runCommand(command, args, options = undefined) {
@@ -36,11 +52,11 @@ function runCommand(command, args, options = undefined) {
 
   return new Promise(resolve => {
     spawned.stdout.on("data", data => {
-      console.log(data.toString());
+      // console.log("one: ", data.toString());
     });
 
     spawned.stderr.on("data", data => {
-      console.error(data.toString());
+      // console.error("two: ", data.toString());
     });
 
     spawned.on("close", () => {
