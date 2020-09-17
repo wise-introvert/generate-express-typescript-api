@@ -7,7 +7,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/wise-introvert/generate-express-typesript-api.git"
+    "url": "git+https://github.com/wise-introvert/generate-express-typescript-api.git"
   },
   "keywords": [
     "express",
@@ -18,9 +18,9 @@
     "boilerplate"
   ],
   "bugs": {
-    "url": "https://github.com/wise-introvert/generate-express-typesript-api/issues"
+    "url": "https://github.com/wise-introvert/generate-express-typescript-api/issues"
   },
-  "homepage": "https://github.com/wise-introvert/generate-express-typesript-api#readme",
+  "homepage": "https://github.com/wise-introvert/generate-express-typescript-api#readme",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
