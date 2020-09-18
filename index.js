@@ -5,8 +5,9 @@ const ora = require("ora");
 const chalk = require("chalk");
 const box = require("cli-box");
 
-const cloneSpinner = ora("📋 Cloning template");
+const cloneSpinner = ora("📋 Cloning API template");
 const installSpinner = ora("📦 Installing dependencies");
+const gitSpinner = ora("📂 Initializing GIT repository");
 
 const name = process.argv[2];
 if (!name || name.match(/[<>:"\/\\|?*\x00-\x1F]/)) {
@@ -22,7 +23,7 @@ const repoURL =
 cloneSpinner.start();
 runCommand("git", ["clone", repoURL, name])
   .then(() => {
-    cloneSpinner.succeed("Cloned!");
+    cloneSpinner.succeed("API template successfully cloned.");
     cloneSpinner.stop();
     installSpinner.start();
     return runCommand("rm", ["-rf", `${name}/.git`]);
@@ -33,18 +34,25 @@ runCommand("git", ["clone", repoURL, name])
     });
   })
   .then(() => {
-    installSpinner.succeed("Installed dependencies!");
+    installSpinner.succeed("Dependencies successfully installed.");
     installSpinner.stop();
-    console.log(
-      box(
-        "80x20",
-        `\n🎉 Successfully created an express api using typescript.\n\n${chalk.whiteBright(
-          "To get started, run the following commands:"
-        )}\n${chalk.blue(`cd ${name}`)}\n${chalk.blue(
-          "npm run start:watch"
-        )}\n\n${chalk.whiteBright("Happy Hacking!")}`
-      ).toString()
-    );
+    gitSpinner.start();
+    return runCommand("git", ["init"], {
+      cwd: process.cwd() + "/" + name
+    }).then(() => {
+      gitSpinner.succeed("Successfully initialized git repository.");
+      gitSpinner.stop();
+      console.log(
+        box(
+          "80x20",
+          `\n🎉 Successfully created an express api using typescript.\n\n${chalk.whiteBright(
+            "To get started, run the following commands:"
+          )}\n${chalk.blue(`cd ${name}`)}\n${chalk.blue(
+            "npm run start:watch"
+          )}\n\n${chalk.whiteBright("Happy Hacking!")}`
+        ).toString()
+      );
+    });
   });
 
 function runCommand(command, args, options = undefined) {
