@@ -1,6 +1,6 @@
 {
   "name": "generate-express-typescript-api",
-  "version": "2.1.3",
+  "version": "2.2.0",
   "description": "",
   "bin": {
     "generate-express-typescript-api": "index.js"
