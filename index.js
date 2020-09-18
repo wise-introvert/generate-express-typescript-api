@@ -39,20 +39,31 @@ runCommand("git", ["clone", repoURL, name])
     gitSpinner.start();
     return runCommand("git", ["init"], {
       cwd: process.cwd() + "/" + name
-    }).then(() => {
-      gitSpinner.succeed("Successfully initialized git repository.");
-      gitSpinner.stop();
-      console.log(
-        box(
-          "80x20",
-          `\n🎉 Successfully created an express api using typescript.\n\n${chalk.whiteBright(
-            "To get started, run the following commands:"
-          )}\n${chalk.blue(`cd ${name}`)}\n${chalk.blue(
-            "npm run start:watch"
-          )}\n\n${chalk.whiteBright("Happy Hacking!")}`
-        ).toString()
-      );
     });
+  })
+  .then(() => {
+    return runCommand("git", ["add", "."], {
+      cwd: process.cwd() + "/" + name
+    });
+  })
+  .then(() => {
+    return runCommand("git", ["commit", "-am", '"initial commit"'], {
+      cwd: process.cwd() + "/" + name
+    });
+  })
+  .then(() => {
+    gitSpinner.succeed("Successfully initialized git repository.");
+    gitSpinner.stop();
+    console.log(
+      box(
+        "80x20",
+        `\n🎉 Successfully created an express api using typescript.\n\n${chalk.whiteBright(
+          "To get started, run the following commands:"
+        )}\n${chalk.blue(`cd ${name}`)}\n${chalk.blue(
+          "npm run start:watch"
+        )}\n\n${chalk.whiteBright("Happy Hacking!")}`
+      ).toString()
+    );
   });
 
 function runCommand(command, args, options = undefined) {

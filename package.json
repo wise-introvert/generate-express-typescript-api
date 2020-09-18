@@ -31,5 +31,10 @@
     "chalk": "^4.1.0",
     "cli-box": "^6.0.10",
     "ora": "^5.1.0"
+  },
+  "devDependencies": {
+    "eslint": "^7.9.0",
+    "eslint-config-airbnb-base": "^14.2.0",
+    "eslint-plugin-import": "^2.22.0"
   }
 }
